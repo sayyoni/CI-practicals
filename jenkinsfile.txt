@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building Python Application'
+                bat 'python --version'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                bat 'python -m pip install -r requirements.txt'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                bat 'python -m pytest -v'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'CI Pipeline Successful!'
+        }
+
+        failure {
+            echo 'CI Pipeline Failed!'
+        }
+    }
+}
